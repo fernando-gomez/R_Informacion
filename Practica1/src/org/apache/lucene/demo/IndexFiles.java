@@ -144,7 +144,6 @@ public class IndexFiles {
 
       for(int i=0; i<nList.getLength(); i++){
         doc.add(new TextField(tag, nList.item(i).getTextContent(), Field.Store.YES));
-        System.out.println( tag + " added: " + nList.item(i).getTextContent());
       }
 
 
@@ -161,7 +160,6 @@ public class IndexFiles {
 
       for(int i=0; i<nList.getLength(); i++){
         doc.add(new StringField(tag, nList.item(i).getTextContent(), Field.Store.YES));
-        System.out.println( tag + " added: " + nList.item(i).getTextContent());
       }
 
   }
@@ -234,6 +232,22 @@ public class IndexFiles {
           indexStringField(doc, "type", file);
           indexStringField(doc, "format", file);
           indexStringField(doc, "language", file);
+
+          DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+          DocumentBuilder db = null;
+
+          db = dbf.newDocumentBuilder();
+          org.w3c.dom.Document doc2 = db.parse(file);
+          NodeList nList = doc2.getElementsByTagName("ows:BoundingBox");
+
+
+          for(int i=0; i<nList.getLength(); i++){
+            NodeList nList2 = nList.item(i).getChildNodes();
+
+            System.out.println("1" + nList2.item(0).getTextContent());
+            System.out.println("2" + nList2.item(1).getTextContent());
+
+          }
 
           doc.add(new StoredField("modified", file.lastModified()));
 
