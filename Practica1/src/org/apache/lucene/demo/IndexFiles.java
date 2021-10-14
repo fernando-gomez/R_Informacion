@@ -44,6 +44,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Paths;
 import java.util.Date;
+import java.util.StringTokenizer;
 
 /** Index all text files under a directory.
  * <p>
@@ -242,10 +243,29 @@ public class IndexFiles {
 
 
           for(int i=0; i<nList.getLength(); i++){
-            NodeList nList2 = nList.item(i).getChildNodes();
+            String coord = nList.item(i).getTextContent();
+            StringTokenizer st = new StringTokenizer(coord, "\n");
 
-            System.out.println("1" + nList2.item(0).getTextContent());
-            System.out.println("2" + nList2.item(1).getTextContent());
+            String lowerCorner= st.nextToken();
+            StringTokenizer st1 = new StringTokenizer(lowerCorner, " ");
+            String west = st1.nextToken();
+            String south = st1.nextToken();
+
+            String upperCorner = st.nextToken();
+            StringTokenizer st2 = new StringTokenizer(upperCorner, " ");
+            String east = st2.nextToken();
+            String north = st2.nextToken();
+
+            DoublePoint westField = new DoublePoint("west", Double.parseDouble(west));
+            DoublePoint southField = new DoublePoint("south",Double.parseDouble(south));
+            DoublePoint eastField = new DoublePoint("east",Double.parseDouble(east));
+            DoublePoint northField = new DoublePoint("north",Double.parseDouble(north));
+
+            doc.add(westField);
+            doc.add(southField);
+            doc.add(eastField);
+            doc.add(northField);
+
 
           }
 
